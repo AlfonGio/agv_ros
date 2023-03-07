@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- DEFINE ROBOT PROPERTIES -->
+    <xacro:property name="lidar_chassis_length" value="0.076"/>
+    <xacro:property name="lidar_chassis_width" value="0.076"/>
+    <xacro:property name="lidar_chassis_height" value="0.02"/>
+    <xacro:property name="lidar_chassis_mass" value="0.1"/>
+    <xacro:property name="lidar_chassis_offset_x" value="0.640"/>
+    <xacro:property name="lidar_chassis_offset_z" value="0.052"/>
+    
+    <xacro:property name="lidar_radius" value="0.035"/>
+    <xacro:property name="lidar_thickness" value="0.02"/>
+    <xacro:property name="lidar_mass" value="0.1"/>
+
+    <!-- LIDAR CHASSIS LINK -->
+    <joint name="lidar_chassis_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="lidar_chassis"/>
+        <origin xyz="${lidar_chassis_offset_x - lidar_chassis_length/2} 0 ${lidar_chassis_offset_z}"/>
+    </joint>
+
+    <link name="lidar_chassis">
+        <visual>
+            <origin xyz="0 0 ${lidar_chassis_height/2}"/>
+            <geometry>
+                <box size="${lidar_chassis_length} ${lidar_chassis_width} ${lidar_chassis_height}"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 ${lidar_chassis_height/2}"/>
+            <geometry>
+                <box size="${lidar_chassis_length} ${lidar_chassis_width} ${lidar_chassis_height}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="${lidar_chassis_mass}" x="${lidar_chassis_length}" y="${lidar_chassis_width}" z="${lidar_chassis_height}">
+            <origin xyz="0 0 ${lidar_chassis_height/2}" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <gazebo reference="lidar_chassis">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <!-- LIDAR LINK -->
+    <joint name="laser_joint" type="fixed">
+        <parent link="lidar_chassis"/>
+        <child link="laser_frame"/>
+        <origin xyz="0 0 ${lidar_chassis_height}" rpy="0 0 0"/>
+    </joint>
+
+    <link name="laser_frame">
+        <visual>
+            <geometry>
+                <cylinder radius="${lidar_radius}" length="${lidar_thickness}"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <visual>
+            <origin xyz="0 0 ${lidar_thickness/2}"/>
+            <geometry>
+                <cylinder radius="${lidar_radius}" length="${lidar_thickness}"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 ${lidar_thickness/2}"/>
+            <geometry>
+                <cylinder radius="${lidar_radius}" length="${lidar_thickness}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="${lidar_mass}" length="${lidar_radius}" radius="${lidar_thickness}">
+            <origin xyz="0 0 ${lidar_thickness/2}" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="laser_frame">
+        <material>Gazebo/White</material>
+
+        <sensor name="laser" type="ray">
+            <pose> 0 0 0 0 0 0 </pose>
+            <visualize>true</visualize>
+            <update_rate>10</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>
+                        <min_angle>-3.14</min_angle>
+                        <max_angle>3.14</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.3</min>
+                    <max>12</max>
+                </range>
+            </ray>
+            <plugin name="laser_controller" filename="libgazebo_ros_ray_sensor.so">
+                <ros>
+                    <argument>~/out:=scan</argument>
+                </ros>
+                <output_type>sensor_msgs/LaserScan</output_type>
+                <frame_name>laser_frame</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+
+</robot>

@@ -48,7 +48,6 @@
             <origin xyz="${chassis_length/2} 0 ${chassis_base_height/2}"/>
             <geometry>
                 <box size="${chassis_length} ${chassis_width} ${chassis_base_height}"/>
-                <!-- <mesh filename="file://home/ros/ros/agv_ws/src/agv_ros/meshes/agv_body.stl"/> -->
             </geometry>
             <material name="white"/>
         </visual>
@@ -56,7 +55,6 @@
             <origin xyz="${chassis_length/2} 0 ${chassis_base_height/2}"/>
             <geometry>
                 <box size="${chassis_length} ${chassis_width} ${chassis_base_height}"/>
-                <!-- <mesh filename="file://home/ros/ros/agv_ws/src/agv_ros/meshes/agv_body.stl"/> -->
             </geometry>
         </collision>
         <xacro:inertial_box mass="${chassis_base_mass}" x="${chassis_length}" y="${chassis_width}" z="${chassis_base_height}">
@@ -80,7 +78,6 @@
             <origin xyz="${chassis_mid_length/2} 0 ${chassis_mid_height/2 + chassis_base_height}"/>
             <geometry>
                 <box size="${chassis_mid_length} ${chassis_width} ${chassis_mid_height}"/>
-                <!-- <mesh filename="file://home/ros/ros/agv_ws/src/agv_ros/meshes/agv_body.stl"/> -->
             </geometry>
             <material name="orange"/>
         </visual>
@@ -88,7 +85,6 @@
             <origin xyz="${chassis_mid_length/2} 0 ${chassis_mid_height/2 + chassis_base_height}"/>
             <geometry>
                 <box size="${chassis_mid_length} ${chassis_width} ${chassis_mid_height}"/>
-                <!-- <mesh filename="file://home/ros/ros/agv_ws/src/agv_ros/meshes/agv_body.stl"/> -->
             </geometry>
         </collision>
         <xacro:inertial_box mass="${chassis_mid_mass}" x="${chassis_mid_length}" y="${chassis_width}" z="${chassis_mid_height}">
@@ -97,7 +93,7 @@
     </link>
 
     <gazebo reference="mid_chassis">
-        <material>Gazebo/White</material>
+        <material>Gazebo/Orange</material>
     </gazebo>
 
     <!-- UPPER CHASSIS LINK -->
@@ -112,15 +108,13 @@
             <origin xyz="${chassis_length/2} 0 ${chassis_upper_height/2 + chassis_base_height + chassis_mid_height}"/>
             <geometry>
                 <box size="${chassis_length} ${chassis_width} ${chassis_upper_height}"/>
-                <!-- <mesh filename="file://home/ros/ros/agv_ws/src/agv_ros/meshes/agv_body.stl"/> -->
             </geometry>
-            <material name="white"/>
+            <material name="orange"/>
         </visual>
         <collision>
             <origin xyz="${chassis_length/2} 0 ${chassis_upper_height/2 + chassis_base_height + chassis_mid_height}"/>
             <geometry>
                 <box size="${chassis_length} ${chassis_width} ${chassis_upper_height}"/>
-                <!-- <mesh filename="file://home/ros/ros/agv_ws/src/agv_ros/meshes/agv_body.stl"/> -->
             </geometry>
         </collision>
         <xacro:inertial_box mass="${chassis_upper_mass}" x="${chassis_length}" y="${chassis_width}" z="${chassis_upper_height}">
@@ -129,7 +123,7 @@
     </link>
 
     <gazebo reference="upper_chassis">
-        <material>Gazebo/White</material>
+        <material>Gazebo/Orange</material>
     </gazebo>
 
     <!-- LEFT WHEEL LINK -->
