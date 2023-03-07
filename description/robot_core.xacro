@@ -8,8 +8,16 @@
     <!-- DEFINE ROBOT PROPERTIES -->
     <xacro:property name="chassis_length" value="0.650"/>
     <xacro:property name="chassis_width" value="0.500"/>
-    <xacro:property name="chassis_height" value="0.360"/>
-    <xacro:property name="chassis_mass" value="70.0"/>
+    <xacro:property name="chassis_height" value="0.320"/>
+    <xacro:property name="chassis_base_height" value="0.052"/>
+    <xacro:property name="chassis_base_mass" value="28.0"/>
+
+    <xacro:property name="chassis_mid_length" value="0.530"/>
+    <xacro:property name="chassis_mid_height" value="0.150"/>
+    <xacro:property name="chassis_mid_mass" value="28.0"/>
+
+    <xacro:property name="chassis_upper_height" value="0.118"/>
+    <xacro:property name="chassis_upper_mass" value="28.0"/>
 
     <xacro:property name="wheel_radius" value="0.077"/>
     <xacro:property name="wheel_thickness" value="0.04"/>
@@ -20,15 +28,15 @@
 
     <xacro:property name="caster_wheel_radius" value="0.025"/>
     <xacro:property name="caster_wheel_mass" value="0.1"/>
-    <xacro:property name="caster_wheel_b_offset_x" value="0.122"/>
-    <xacro:property name="caster_wheel_f_offset_x" value="0.580"/>
+    <xacro:property name="caster_wheel_b_offset_x" value="0.095"/>
+    <xacro:property name="caster_wheel_f_offset_x" value="0.560"/>
     <xacro:property name="caster_wheel_offset_y" value="0.20"/>
     <xacro:property name="caster_wheel_offset_z" value="${wheel_offset_z - wheel_radius + caster_wheel_radius}"/>
 
     <!-- BASE LINK -->
     <link name="base_link"></link>
 
-    <!-- CHASSIS LINK -->
+    <!-- BASE CHASSIS LINK -->
     <joint name="chassis_joint" type="fixed">
         <parent link="base_link"/>
         <child link="chassis"/>
@@ -37,26 +45,90 @@
 
     <link name="chassis">
         <visual>
-            <origin xyz="${chassis_length/2} 0 ${chassis_height/2}"/>
+            <origin xyz="${chassis_length/2} 0 ${chassis_base_height/2}"/>
             <geometry>
-                <!-- <box size="${chassis_length} ${chassis_width} ${chassis_height}"/> -->
-                <mesh filename="package://$(find agv_ros)/meshes/AGV-Body-v2.stl"/>
+                <box size="${chassis_length} ${chassis_width} ${chassis_base_height}"/>
+                <!-- <mesh filename="file://home/ros/ros/agv_ws/src/agv_ros/meshes/agv_body.stl"/> -->
             </geometry>
             <material name="white"/>
         </visual>
         <collision>
-            <origin xyz="${chassis_length/2} 0 ${chassis_height/2}"/>
+            <origin xyz="${chassis_length/2} 0 ${chassis_base_height/2}"/>
             <geometry>
-                <!-- <box size="${chassis_length} ${chassis_width} ${chassis_height}"/> -->
-                <mesh filename="package://$(find agv_ros)/meshes/AGV-Body-v2.stl"/>
+                <box size="${chassis_length} ${chassis_width} ${chassis_base_height}"/>
+                <!-- <mesh filename="file://home/ros/ros/agv_ws/src/agv_ros/meshes/agv_body.stl"/> -->
             </geometry>
         </collision>
-        <xacro:inertial_box mass="${chassis_mass}" x="${chassis_length}" y="${chassis_width}" z="${chassis_height}">
-            <origin xyz="${chassis_length/2} 0 ${chassis_height/2}" rpy="0 0 0"/>
+        <xacro:inertial_box mass="${chassis_base_mass}" x="${chassis_length}" y="${chassis_width}" z="${chassis_base_height}">
+            <origin xyz="${chassis_length/2} 0 ${chassis_base_height/2}" rpy="0 0 0"/>
         </xacro:inertial_box>
     </link>
 
     <gazebo reference="chassis">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <!-- MID CHASSIS LINK -->
+    <joint name="mid_chassis_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="mid_chassis"/>
+        <origin xyz="${-wheel_offset_x} 0 ${-wheel_offset_z}"/>
+    </joint>
+
+    <link name="mid_chassis">
+        <visual>
+            <origin xyz="${chassis_mid_length/2} 0 ${chassis_mid_height/2 + chassis_base_height}"/>
+            <geometry>
+                <box size="${chassis_mid_length} ${chassis_width} ${chassis_mid_height}"/>
+                <!-- <mesh filename="file://home/ros/ros/agv_ws/src/agv_ros/meshes/agv_body.stl"/> -->
+            </geometry>
+            <material name="orange"/>
+        </visual>
+        <collision>
+            <origin xyz="${chassis_mid_length/2} 0 ${chassis_mid_height/2 + chassis_base_height}"/>
+            <geometry>
+                <box size="${chassis_mid_length} ${chassis_width} ${chassis_mid_height}"/>
+                <!-- <mesh filename="file://home/ros/ros/agv_ws/src/agv_ros/meshes/agv_body.stl"/> -->
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="${chassis_mid_mass}" x="${chassis_mid_length}" y="${chassis_width}" z="${chassis_mid_height}">
+            <origin xyz="${chassis_mid_length/2} 0 ${chassis_mid_height/2 + chassis_base_height}" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <gazebo reference="mid_chassis">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <!-- UPPER CHASSIS LINK -->
+    <joint name="upper_chassis_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="upper_chassis"/>
+        <origin xyz="${-wheel_offset_x} 0 ${-wheel_offset_z}"/>
+    </joint>
+
+    <link name="upper_chassis">
+        <visual>
+            <origin xyz="${chassis_length/2} 0 ${chassis_upper_height/2 + chassis_base_height + chassis_mid_height}"/>
+            <geometry>
+                <box size="${chassis_length} ${chassis_width} ${chassis_upper_height}"/>
+                <!-- <mesh filename="file://home/ros/ros/agv_ws/src/agv_ros/meshes/agv_body.stl"/> -->
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="${chassis_length/2} 0 ${chassis_upper_height/2 + chassis_base_height + chassis_mid_height}"/>
+            <geometry>
+                <box size="${chassis_length} ${chassis_width} ${chassis_upper_height}"/>
+                <!-- <mesh filename="file://home/ros/ros/agv_ws/src/agv_ros/meshes/agv_body.stl"/> -->
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="${chassis_upper_mass}" x="${chassis_length}" y="${chassis_width}" z="${chassis_upper_height}">
+            <origin xyz="${chassis_length/2} 0 ${chassis_upper_height/2}" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <gazebo reference="upper_chassis">
         <material>Gazebo/White</material>
     </gazebo>
 
