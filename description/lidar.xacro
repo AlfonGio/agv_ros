@@ -47,7 +47,7 @@
     <joint name="laser_joint" type="fixed">
         <parent link="lidar_chassis"/>
         <child link="laser_frame"/>
-        <origin xyz="0 0 ${lidar_chassis_height}" rpy="0 0 0"/>
+        <origin xyz="0 0 ${lidar_chassis_height + lidar_thickness/2}" rpy="0 0 0"/>
     </joint>
 
     <link name="laser_frame">
@@ -91,7 +91,7 @@
                     </horizontal>
                 </scan>
                 <range>
-                    <min>0.3</min>
+                    <min>0.1</min>
                     <max>12</max>
                 </range>
             </ray>
