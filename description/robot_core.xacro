@@ -31,7 +31,7 @@
     <xacro:property name="caster_wheel_b_offset_x" value="0.095"/>
     <xacro:property name="caster_wheel_f_offset_x" value="0.560"/>
     <xacro:property name="caster_wheel_offset_y" value="0.20"/>
-    <xacro:property name="caster_wheel_offset_z" value="${wheel_offset_z - wheel_radius + caster_wheel_radius}"/>
+    <xacro:property name="caster_wheel_offset_z" value="${wheel_offset_z - wheel_radius + caster_wheel_radius + 0.0005}"/>
 
     <!-- BASE LINK -->
     <link name="base_link"></link>
@@ -211,8 +211,8 @@
 
     <gazebo reference="caster_wheel_br">
         <material>Gazebo/Black</material>
-        <mu1 value="0.001"/>
-        <mu2 value="0.001"/>
+        <mu1 value="0.005"/>
+        <mu2 value="0.005"/>
     </gazebo>
 
     <!-- CASTER WHEEL LINK BL-->
@@ -242,8 +242,8 @@
 
     <gazebo reference="caster_wheel_bl">
         <material>Gazebo/Black</material>
-        <mu1 value="0.001"/>
-        <mu2 value="0.001"/>
+        <mu1 value="0.005"/>
+        <mu2 value="0.005"/>
     </gazebo>
 
     <!-- CASTER WHEEL LINK FR-->
@@ -273,8 +273,8 @@
 
     <gazebo reference="caster_wheel_fr">
         <material>Gazebo/Black</material>
-        <mu1 value="0.001"/>
-        <mu2 value="0.001"/>
+        <mu1 value="0.004"/>
+        <mu2 value="0.004"/>
     </gazebo>
 
     <!-- CASTER WHEEL LINK FL-->
@@ -304,8 +304,9 @@
 
     <gazebo reference="caster_wheel_fl">
         <material>Gazebo/Black</material>
-        <mu1 value="0.001"/>
-        <mu2 value="0.001"/>
+        <mu1 value="0.004"/>
+        <mu2 value="0.004"/>
     </gazebo>
+
 
 </robot>
