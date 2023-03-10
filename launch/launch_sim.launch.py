@@ -7,8 +7,10 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
-from launch_ros.actions import Node
+from launch.actions import RegisterEventHandler
+from launch.event_handlers import OnProcessExit
 
+from launch_ros.actions import Node
 
 
 def generate_launch_description():
@@ -21,7 +23,7 @@ def generate_launch_description():
     rsp = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory(package_name),'launch','rsp.launch.py'
-                )]), launch_arguments={'use_sim_time': 'true'}.items()
+                )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true'}.items()
     )
 
     # joystick = IncludeLaunchDescription(
@@ -44,7 +46,8 @@ def generate_launch_description():
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
-                    launch_arguments={'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_file}.items()
+                    # launch_arguments={'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_file}.items()
+                    launch_arguments={'params_file': gazebo_params_file}.items()
              )
 
     # Run the spawner node from the gazebo_ros package. The entity name doesn't really matter if you only have a single robot.
@@ -58,27 +61,13 @@ def generate_launch_description():
                               arguments=["diff_cont"],
     )
 
+    delayed_diff_drive_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(target_action=spawn_entity, on_exit=[diff_drive_spawner],)
+    )
+
     joint_broad_spawner = Node(package="controller_manager", executable="spawner.py",
                                arguments=["joint_broad"],
     )
-
-
-    # Code for delaying a node (I haven't tested how effective it is)
-    # 
-    # First add the below lines to imports
-    # from launch.actions import RegisterEventHandler
-    # from launch.event_handlers import OnProcessExit
-    #
-    # Then add the following below the current diff_drive_spawner
-    # delayed_diff_drive_spawner = RegisterEventHandler(
-    #     event_handler=OnProcessExit(
-    #         target_action=spawn_entity,
-    #         on_exit=[diff_drive_spawner],
-    #     )
-    # )
-    #
-    # Replace the diff_drive_spawner in the final return with delayed_diff_drive_spawner
-
 
 
     # Launch them all!
@@ -89,5 +78,6 @@ def generate_launch_description():
         gazebo,
         spawn_entity,
         diff_drive_spawner,
+        # delayed_diff_drive_spawner,
         joint_broad_spawner
     ])
