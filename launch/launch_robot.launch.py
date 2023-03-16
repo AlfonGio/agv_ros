@@ -31,7 +31,6 @@ def generate_launch_description():
                 )])
     )
 
-
     twist_mux_params = os.path.join(get_package_share_directory(package_name),'config','twist_mux.yaml')
     twist_mux = Node(
             package="twist_mux",
@@ -66,16 +65,6 @@ def generate_launch_description():
     delayed_joint_broad_spawner = RegisterEventHandler(
         event_handler=OnProcessStart(target_action=controller_manager,on_start=[joint_broad_spawner],)
     )
-
-    # Then add the following below the current diff_drive_spawner
-    # delayed_diff_drive_spawner = RegisterEventHandler(
-    #     event_handler=OnProcessExit(
-    #         target_action=spawn_entity,
-    #         on_exit=[diff_drive_spawner],
-    #     )
-    # )
-    #
-    # Replace the diff_drive_spawner in the final return with delayed_diff_drive_spawner
 
 
 
