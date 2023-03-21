@@ -17,7 +17,7 @@
     <joint name="lidar_chassis_joint" type="fixed">
         <parent link="chassis"/>
         <child link="lidar_chassis"/>
-        <origin xyz="${lidar_chassis_offset_x - lidar_chassis_length/2} 0 ${lidar_chassis_offset_z}"/>
+        <origin xyz="${lidar_chassis_offset_x - lidar_chassis_length/2} 0 ${lidar_chassis_offset_z}" rpy="0 0 ${pi}"/>
     </joint>
 
     <link name="lidar_chassis">
@@ -47,7 +47,7 @@
     <joint name="laser_joint" type="fixed">
         <parent link="lidar_chassis"/>
         <child link="laser_frame"/>
-        <origin xyz="0 0 ${lidar_chassis_height + lidar_thickness/2}" rpy="0 0 ${pi}"/>
+        <origin xyz="0 0 ${lidar_chassis_height + lidar_thickness/2}" rpy="0 0 0"/>
     </joint>
 
     <link name="laser_frame">
@@ -86,8 +86,8 @@
                 <scan>
                     <horizontal>
                         <samples>360</samples>
-                        <min_angle>-3.14</min_angle>
-                        <max_angle>3.14</max_angle>
+                        <min_angle>-1.57</min_angle>
+                        <max_angle>1.57</max_angle>
                     </horizontal>
                 </scan>
                 <range>
