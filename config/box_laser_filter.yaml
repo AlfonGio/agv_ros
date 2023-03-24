@@ -12,4 +12,4 @@ scan_to_scan_filter_chain:
         min_y: -0.5
         min_z: -0.5
         
-        invert: true # activate to remove all points outside of the box
+        invert: false # activate to remove all points outside of the box
