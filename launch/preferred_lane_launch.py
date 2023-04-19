@@ -10,16 +10,23 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
   package_name = 'agv_ros'
   default_launch_dir = 'launch'
-  # map_file_path = 'maps/trial1_4th_floor_save.yaml'
-  map_file_path = 'maps/4th_floor_full_save.yaml'
+  map_file_path = 'maps/trial1_4th_floor_save.yaml'
+  # map_file_path = 'maps/4th_floor_full_save.yaml'
   nav2_params_path = 'config/nav2_preferred_lanes_params.yaml'
   rviz_config_file_path = 'rviz/nav_sim_nav.rviz'
   
   # Pose where we want to spawn the robot
-  spawn_x_val = '0.749961'
-  spawn_y_val = '0.0898902'
+  # Robotics Lab Point
+  # spawn_x_val = '0.749961'
+  # spawn_y_val = '0.0898902'
+  # spawn_z_val = '0.0'
+  # spawn_yaw_val = '1.5812'
+
+  # CLD Point
+  spawn_x_val = '3.33051'
+  spawn_y_val = '-8.1213'
   spawn_z_val = '0.0'
-  spawn_yaw_val = '1.5812'
+  spawn_yaw_val = '-3.12193'
   
   # Set the path to different files and folders.  
   pkg_share = FindPackageShare(package=package_name).find(package_name)
