@@ -10,7 +10,8 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
   package_name = 'agv_ros'
   default_launch_dir = 'launch'
-  map_file_path = 'maps/trial1_4th_floor_save.yaml'
+  # map_file_path = 'maps/trial1_4th_floor_save.yaml'
+  map_file_path = 'maps/4th_floor_full_save.yaml'
   nav2_params_path = 'config/nav2_preferred_lanes_params.yaml'
   rviz_config_file_path = 'rviz/nav_sim_nav.rviz'
   
@@ -25,7 +26,7 @@ def generate_launch_description():
   default_launch_dir = os.path.join(pkg_share, default_launch_dir)
   default_rviz_config_path = os.path.join(pkg_share, rviz_config_file_path)
   nav2_dir = FindPackageShare(package='nav2_bringup').find('nav2_bringup') 
-  nav2_launch_dir = os.path.join(nav2_dir, 'launch') 
+  nav2_launch_dir = os.path.join(pkg_share, 'launch') #nav2_dir
   static_map_path = os.path.join(pkg_share, map_file_path)
   nav2_params_path = os.path.join(pkg_share, nav2_params_path)
   nav2_bt_path = FindPackageShare(package='nav2_bt_navigator').find('nav2_bt_navigator')
