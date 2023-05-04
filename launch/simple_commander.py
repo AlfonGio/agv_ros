@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import rclpy
+from rclpy.duration import Duration
 from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 from geometry_msgs.msg import PoseStamped
 import tf_transformations
@@ -37,7 +38,7 @@ def main():
     f_initial_pose = create_pose_stamped(nav, f_spawn_x_val, f_spawn_y_val, f_spawn_yaw_val)
     
     # --- Set initial pose
-    nav.setInitialPose(f_initial_pose)
+    # nav.setInitialPose(f_initial_pose)
 
     # --- Wait for Nav2
     nav.waitUntilNav2Active()
@@ -72,10 +73,20 @@ def main():
     f_waypoints.append(create_pose_stamped(nav, 3.39665, -8.20401, -3.1408))
 
     # --- Follow waypoints
-    nav.followWaypoints(f_waypoints)
+    nav_start = nav.get_clock().now()
+    nav.followWaypoints(r_waypoints)
+    i = 0
     while not nav.isTaskComplete():
+        i = i + 1
         feedback = nav.getFeedback()
-        print(feedback)
+        if feedback and i % 5 == 0:
+            print("Executing current waypoint: " + 
+                  str(feedback.current_waypoint + 1) + "/" + str(len(r_waypoints)))
+            now = nav.get_clock().now()
+
+            # Some navigation timeout to demo cancellation
+            if now - nav_start > Duration(seconds=600.0):
+                nav.cancelTask()
 
     # Do something depending on the return code
     result = nav.getResult()
