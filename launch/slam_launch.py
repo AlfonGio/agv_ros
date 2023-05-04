@@ -38,8 +38,8 @@ def generate_launch_description():
     lifecycle_nodes = ['map_saver']
 
     # Getting directories and launch-files
-    bringup_dir = get_package_share_directory('nav2_bringup')
-    slam_toolbox_dir = get_package_share_directory('slam_toolbox')
+    bringup_dir = get_package_share_directory('agv_ros') # nav2_bringup
+    slam_toolbox_dir = get_package_share_directory('agv_ros') # slam_toolbox
     slam_launch_file = os.path.join(slam_toolbox_dir, 'launch', 'online_async_launch.py')
 
     # Create our own temporary YAML files that include substitutions
@@ -60,24 +60,28 @@ def generate_launch_description():
 
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
-        default_value=os.path.join(bringup_dir, 'params', 'nav2_params.yaml'),
+        # default_value=os.path.join(bringup_dir, 'params', 'nav2_params.yaml'),
+        default_value=os.path.join(bringup_dir, 'config', 'nav2_preferred_lanes_params.yaml'),
         description='Full path to the ROS2 parameters file to use for all launched nodes')
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
         'use_sim_time',
-        default_value='True',
+        default_value='False',
         description='Use simulation (Gazebo) clock if true')
 
     declare_autostart_cmd = DeclareLaunchArgument(
-        'autostart', default_value='True',
+        'autostart',
+        default_value='True',
         description='Automatically startup the nav2 stack')
 
     declare_use_respawn_cmd = DeclareLaunchArgument(
-        'use_respawn', default_value='False',
+        'use_respawn',
+        default_value='False',
         description='Whether to respawn if a node crashes. Applied when composition is disabled.')
 
     declare_log_level_cmd = DeclareLaunchArgument(
-        'log_level', default_value='info',
+        'log_level',
+        default_value='info',
         description='log level')
 
     # Nodes launching commands

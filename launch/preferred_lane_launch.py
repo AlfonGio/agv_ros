@@ -17,22 +17,22 @@ def generate_launch_description():
   
   # Pose where we want to spawn the robot
   # Robotics Lab Point
-  # spawn_x_val = '0.749961'
-  # spawn_y_val = '0.0898902'
-  # spawn_z_val = '0.0'
-  # spawn_yaw_val = '1.5812'
+  spawn_x_val = '0.749961'
+  spawn_y_val = '0.0898902'
+  spawn_z_val = '0.0'
+  spawn_yaw_val = '1.5812'
 
   # CLD Point
-  spawn_x_val = '3.33051'
-  spawn_y_val = '-8.1213'
-  spawn_z_val = '0.0'
-  spawn_yaw_val = '-3.12193'
+  # spawn_x_val = '3.33051'
+  # spawn_y_val = '-8.1213'
+  # spawn_z_val = '0.0'
+  # spawn_yaw_val = '-3.12193'
   
   # Set the path to different files and folders.  
   pkg_share = FindPackageShare(package=package_name).find(package_name)
   default_launch_dir = os.path.join(pkg_share, default_launch_dir)
   default_rviz_config_path = os.path.join(pkg_share, rviz_config_file_path)
-  nav2_dir = FindPackageShare(package='nav2_bringup').find('nav2_bringup') 
+  nav2_dir = FindPackageShare(package='nav2_bringup').find('nav2_bringup')
   nav2_launch_dir = os.path.join(pkg_share, 'launch') #nav2_dir
   static_map_path = os.path.join(pkg_share, map_file_path)
   nav2_params_path = os.path.join(pkg_share, nav2_params_path)
