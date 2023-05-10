@@ -7,7 +7,7 @@
 
     <!-- DEFINE ROBOT PROPERTIES -->
     <xacro:property name="chassis_length" value="0.650"/>
-    <xacro:property name="chassis_width" value="0.500"/>
+    <xacro:property name="chassis_width" value="0.600"/>
     <xacro:property name="chassis_height" value="0.320"/>
     <xacro:property name="chassis_base_height" value="0.052"/>
     <xacro:property name="chassis_base_mass" value="28.0"/>

@@ -33,7 +33,7 @@ if(BUILD_TESTING)
 endif()
 
 install(
-  DIRECTORY config description launch meshes worlds
+  DIRECTORY config description launch maps meshes rviz worlds
   DESTINATION share/${PROJECT_NAME}
 )
 
